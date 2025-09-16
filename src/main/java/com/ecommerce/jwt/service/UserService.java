@@ -43,15 +43,15 @@ public class UserService {
 	
 	public void initRolesAndUser() {
 		
-		Role adminRole= new Role();
-		adminRole.setRoleName("Admin");
-		adminRole.setRoleDescription("Admin role");
-		roleRepository.save(adminRole);
-		
-		Role userRole= new Role();
-		userRole.setRoleName("User");
-		userRole.setRoleDescription("User Role");
-		roleRepository.save(userRole);
+//		Role adminRole= new Role();
+//		adminRole.setRoleName("Admin");
+//		adminRole.setRoleDescription("Admin role");
+//		roleRepository.save(adminRole);
+//		
+//		Role userRole= new Role();
+//		userRole.setRoleName("User");
+//		userRole.setRoleDescription("User Role");
+//		roleRepository.save(userRole);
 		
 //		User adminUser= new User();
 //		adminUser.setUserName("admin123");

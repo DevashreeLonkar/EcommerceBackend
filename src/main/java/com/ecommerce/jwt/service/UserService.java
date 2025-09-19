@@ -27,12 +27,10 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
-	public User registerNewUser(User user) {
-		
+	public User registerNewUser(User user) {	
 		//Role role= roleRepository.findById("User").get();
 		Role role = roleRepository.findByRoleName("User")
 			    .orElseThrow(() -> new RuntimeException("Role not found: User"));
-		
 		Set<Role> roles= new HashSet<>();
 		roles.add(role);
 		user.setRole(roles);	
@@ -41,7 +39,10 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
-	public void initRolesAndUser() {
+	public String getEncodedPassword(String password) {
+		return passwordEncoder.encode(password);
+	}
+	//public void initRolesAndUser() {
 		
 //		Role adminRole= new Role();
 //		adminRole.setRoleName("Admin");
@@ -53,6 +54,22 @@ public class UserService {
 //		userRole.setRoleDescription("User Role");
 //		roleRepository.save(userRole);
 		
+		public void initRolesAndUser() {
+		    roleRepository.findByRoleName("Admin").orElseGet(() -> {
+		        Role adminRole = new Role();
+		        adminRole.setRoleName("Admin");
+		        adminRole.setRoleDescription("Admin role");
+		        return roleRepository.save(adminRole);
+		    });
+
+		    roleRepository.findByRoleName("User").orElseGet(() -> {
+		        Role userRole = new Role();
+		        userRole.setRoleName("User");
+		        userRole.setRoleDescription("User role");
+		        return roleRepository.save(userRole);
+		    });
+
+		
 //		User adminUser= new User();
 //		adminUser.setUserName("admin123");
 //		adminUser.setFirstName("admin");
@@ -63,7 +80,7 @@ public class UserService {
 //		adminUser.setRole(adminRoles);
 //		userRepository.save(adminUser);
 		
-		//User user= new User();
+//		User user= new User();
 //		user.setUserName("devashree17");
 //		user.setFirstName("devashree");
 //		user.setLastName("lonkar");
@@ -74,7 +91,5 @@ public class UserService {
 //		userRepository.save(user);
 	}
 	
-	public String getEncodedPassword(String password) {
-		return passwordEncoder.encode(password);
-	}
+	
 }

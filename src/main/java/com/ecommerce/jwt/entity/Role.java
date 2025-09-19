@@ -25,6 +25,7 @@ public class Role {
 	@Column(name = "role_id")
 	private Long roleId;
 	
+	@Column(unique = true, nullable = false)
 	private String roleName;
 	
 	private String roleDescription;

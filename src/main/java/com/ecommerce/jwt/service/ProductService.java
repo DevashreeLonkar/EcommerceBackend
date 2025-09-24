@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.jwt.entity.Product;
@@ -20,7 +23,10 @@ public class ProductService {
 	}
 	
 	public List<Product> getAllProducts(){
-		return (List<Product>) productRepository.findAll();
+		Pageable pageable= PageRequest.of(0, 2);
+		//return (List<Product>) productRepository.findAll(pageable);
+		Page<Product> page = productRepository.findAll(pageable);
+	    return page.getContent();
 	}
 	
 	public void deleteProductDetails(Long productId) {

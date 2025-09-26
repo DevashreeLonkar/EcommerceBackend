@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
+import org.hibernate.engine.jdbc.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.ecommerce.jwt.entity.ImageModel;
 import com.ecommerce.jwt.entity.Product;
 import com.ecommerce.jwt.repository.ImageModelRepository;
@@ -39,12 +39,6 @@ public class ProductController {
 	@PostMapping(value = {"/addNewProduct"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 	public Product addNewProduct(@RequestPart("product") Product product,
 								@RequestPart("imageFile") MultipartFile[] file) {
-//		return productService.addNewProduct(product);
-//		ImageModel im = new ImageModel();
-//		im.setType()
-		
-		//imageModelRepository.save(im);
-		System.out.println("line 37");
 		try {
 			product.setProductId(null);
 			Set<ImageModel> images= uploadImage(file);
@@ -72,10 +66,12 @@ public class ProductController {
 		return imageModels;
 	}
 	
-
 	@GetMapping({"/getAllProducts"})
-	public List<Product> getAllProducts(){
-		return productService.getAllProducts();
+	public List<Product> getAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
+										@RequestParam(defaultValue= "") String searchKey){
+		List<Product> result= productService.getAllProducts(pageNumber, searchKey);
+		System.out.println("Size of result is: " +result.size());
+		return result;
 	}
 	
 	@PreAuthorize("hasRole('Admin')")

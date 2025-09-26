@@ -13,4 +13,7 @@ import com.ecommerce.jwt.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
 	Page<Product> findAll(Pageable pageable);
+
+	List<Product> findByProductNameContainingIgnoreCaseOrProductDescriptionContainingIgnoreCase
+	(String key1, String key2, Pageable pageable);
 }

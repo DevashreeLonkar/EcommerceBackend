@@ -22,11 +22,18 @@ public class ProductService {
 		return productRepository.save(product);
 	}
 	
-	public List<Product> getAllProducts(){
-		Pageable pageable= PageRequest.of(0, 2);
+	public List<Product> getAllProducts(int pageNumber, String searchKey){
+		Pageable pageable= PageRequest.of(pageNumber, 12);
 		//return (List<Product>) productRepository.findAll(pageable);
-		Page<Product> page = productRepository.findAll(pageable);
-	    return page.getContent();
+		
+		if(searchKey.equals("")) {
+			Page<Product> page = productRepository.findAll(pageable);
+		    return page.getContent();
+		}
+		else {
+		return (List<Product>) productRepository.findByProductNameContainingIgnoreCaseOrProductDescriptionContainingIgnoreCase
+				(searchKey, searchKey, pageable);
+		}
 	}
 	
 	public void deleteProductDetails(Long productId) {

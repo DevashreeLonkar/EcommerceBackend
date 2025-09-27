@@ -26,13 +26,17 @@ public class ProductService {
 		Pageable pageable= PageRequest.of(pageNumber, 12);
 		//return (List<Product>) productRepository.findAll(pageable);
 		
-		if(searchKey.equals("")) {
+		if(searchKey == null || searchKey.trim().isEmpty()) {  //searchKey.equals("")
 			Page<Product> page = productRepository.findAll(pageable);
 		    return page.getContent();
 		}
 		else {
-		return (List<Product>) productRepository.findByProductNameContainingIgnoreCaseOrProductDescriptionContainingIgnoreCase
-				(searchKey, searchKey, pageable);
+//		return (List<Product>) productRepository.findByProductNameContainingIgnoreCaseOrProductDescriptionContainingIgnoreCase
+//				(searchKey, searchKey, pageable);
+			   Page<Product> page = productRepository
+			            .findByProductNameContainingIgnoreCaseOrProductDescriptionContainingIgnoreCase(
+			                searchKey, searchKey, pageable);
+			        return page.getContent();
 		}
 	}
 	

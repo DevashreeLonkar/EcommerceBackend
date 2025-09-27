@@ -28,7 +28,7 @@ public class ImageModel {
 	private String name;
 	private String type;
 	@Lob
-	//@Column(length = 50000000)
-	@Column(name = "pic_byte", columnDefinition = "bytea")
+	@Column(length = 50000000)
+	//@Column(name = "pic_byte", columnDefinition = "bytea")
 	private byte[] picByte;
 }

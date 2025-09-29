@@ -41,7 +41,7 @@ public class WebSecurityConfiguration {
             .cors().and()
             .csrf().disable()
             .authorizeHttpRequests()
-                .requestMatchers("/authenticate", "/registerNewUser","/getAllProducts","/getProductDetails/{productId}","/h2-console/**").permitAll()
+                .requestMatchers("/authenticate", "/registerNewUser","/getAllProducts","/getProductDetails/{productId}","/api/reports/**","/h2-console/**").permitAll()
                 .anyRequest().authenticated()
             .and()
             .exceptionHandling()

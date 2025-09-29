@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orders Report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a529d27-f255-46c3-ab9c-b380b46a55f0">
+	<property name="ireport.zoom" value="1.1"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select * from order_detail;]]>
+	</queryString>
+	<field name="order_id" class="java.lang.Long"/>
+	<field name="order_altername_contact_number" class="java.lang.String"/>
+	<field name="order_amount" class="java.lang.Double"/>
+	<field name="order_contact_number" class="java.lang.String"/>
+	<field name="order_full_addres" class="java.lang.String"/>
+	<field name="order_full_name" class="java.lang.String"/>
+	<field name="order_status" class="java.lang.String"/>
+	<field name="product_product_id" class="java.lang.Long"/>
+	<field name="user_user_id" class="java.lang.Long"/>
+	<variable name="total_orders_var" class="java.lang.Number" calculation="Count">
+		<variableExpression><![CDATA[$F{product_product_id}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b87e5115-a81f-41d9-9eca-69a3bb6c8f56" mode="Opaque" x="195" y="10" width="154" height="38" forecolor="#000000" backcolor="#CCCCFF"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Orders Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="ed240514-4f5b-48af-a2d3-7f7a4b1b109c" x="379" y="0" width="195" height="35"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="9c2fcce8-ed8c-4364-96dc-2d7182ce61aa" x="38" y="0" width="61" height="26"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Order No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="47783783-61bd-4d58-9fb6-36af77400d95" x="99" y="0" width="129" height="26"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Full Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a9298def-52a4-4b07-949e-0919e7ebfd37" x="228" y="0" width="61" height="26"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Product ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8b88ade5-e1dd-4136-85af-44108a9e103a" x="289" y="0" width="110" height="26"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Order Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72261ab1-2711-4f39-87cd-d0cfd64300d9" x="399" y="0" width="116" height="26"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Order Status]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement uuid="be4d70d6-93ee-4cda-8741-27980b089922" x="99" y="0" width="129" height="34"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{order_full_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="10c3c2c5-9984-427f-b6ee-a13bbfd8123c" x="228" y="0" width="61" height="34"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{product_product_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d63d5cfd-2a10-4b6d-b652-fbc1f8af8701" x="289" y="0" width="110" height="34"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{order_amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4bcb089d-2185-462f-9a44-829083244af2" x="399" y="0" width="116" height="34"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{order_status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bf4f8389-3af3-4c00-9677-3fda0bc54179" x="38" y="0" width="61" height="34"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{order_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement uuid="5c63ad18-b698-4c5f-bd2c-e167b3353c4c" x="328" y="0" width="100" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{total_orders_var}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a0a0143c-64b3-45c2-b890-6383f051d512" x="228" y="1" width="100" height="20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[Total Orders]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

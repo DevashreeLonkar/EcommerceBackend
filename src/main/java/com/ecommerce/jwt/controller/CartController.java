@@ -1,5 +1,8 @@
 package com.ecommerce.jwt.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,12 @@ public class CartController {
 	@GetMapping({"/addToCart/{productId}"})
 	public CartResponseDTO addToCart(@PathVariable(name = "productId") Long productId) {
 		return cartService.addToCart(productId);
+	}
+	
+	@PreAuthorize("hasRole('User')")
+	@GetMapping("/getCartDetails")
+	public Optional<Cart> getCartDetails(){
+		return cartService.getCartDetails();
 	}
 
 }

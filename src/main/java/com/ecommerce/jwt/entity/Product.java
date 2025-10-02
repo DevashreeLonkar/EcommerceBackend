@@ -1,5 +1,6 @@
 package com.ecommerce.jwt.entity;
 
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -53,7 +54,21 @@ public class Product {
 //	private Set<ImageModel> productImage;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "product_id")   // creates FK in image_model
-    private Set<ImageModel> productImageSet;  // <-- MATCH frontend naming
+	@JoinColumn(name = "product_id")  
+    private Set<ImageModel> productImageSet;  
+	
+	// ✅ equals & hashCode based only on productId
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return productId != null && productId.equals(product.getProductId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productId);
+    }
 	
 }

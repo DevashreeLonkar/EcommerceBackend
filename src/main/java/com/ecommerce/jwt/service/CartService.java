@@ -1,5 +1,6 @@
 package com.ecommerce.jwt.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,15 +55,40 @@ public class CartService {
 		Product product= productRepository.findById(productId)
 				.orElseThrow(()-> new RuntimeException("Poduct not found"));
 		
-		if(product != null && user != null) {
-			Cart cart= new Cart();
-			cart.setUser(user);
-			cart.setProduct(product);
-			cartRepository.save(cart);
-			
-			return new CartResponseDTO(cart.getCartId(), cart.getUser().getUserName(), cart.getProduct().getProductName());
-		}
-		return null;
+//		if(product != null && user != null) {
+//			Cart cart= new Cart();
+//			cart.setUser(user);
+//			cart.setProduct(product);
+//			cartRepository.save(cart);
+//			
+//			return new CartResponseDTO(cart.getCartId(), cart.getUser().getUserName(), cart.getProduct().getProductName());
+//		}
+//		return null;
+		
+	    // Check if user already has a cart
+	    Cart cart = cartRepository.findByUser(user).orElse(null);
+	    if (cart == null) {
+	        cart = new Cart();
+	        cart.setUser(user);
+	    }
+
+	    // Add product to cart (prevent duplicates if needed)
+	    cart.getProducts().add(product);
+
+	    cart = cartRepository.save(cart);
+
+	    return new CartResponseDTO(cart.getCartId(), user.getUserName(),
+	            cart.getProducts().stream().map(Product::getProductName).toList());
+	}
+	
+	
+	public Optional<Cart> getCartDetails() {
+		String username= JwtRequestFilter.CURRENT_USER;		
+		User user= userRepository.findByUserName(username)
+				.orElseThrow(()-> new RuntimeException("User not found"));
+		
+		return cartRepository.findByUser(user);
+				
 	}
 
 }

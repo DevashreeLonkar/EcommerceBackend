@@ -1,13 +1,14 @@
 package com.ecommerce.jwt.dto;
 
+import java.util.List;
 
 public class CartResponseDTO {
 	
 	private Long cartId;
 	private String userName;
-	private String productName;
+	private List<String> productName;
 	
-	 public CartResponseDTO(Long cartId, String username, String productName) {
+	 public CartResponseDTO(Long cartId, String username, List<String> productName) {
 	        this.cartId = cartId;
 	        this.userName = userName;
 	        this.productName = productName;
@@ -29,11 +30,13 @@ public class CartResponseDTO {
 		this.userName = userName;
 	}
 
-	public String getProductName() {
+	public List<String> getProductName() {
 		return productName;
 	}
 
-	public void setProductName(String productName) {
+	public void setProductName(List<String> productName) {
 		this.productName = productName;
 	}
 }
+
+	

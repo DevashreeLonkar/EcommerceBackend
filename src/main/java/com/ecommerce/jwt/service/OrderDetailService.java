@@ -63,4 +63,17 @@ public class OrderDetailService {
 			}
 		}
 	}
+	
+	public List<OrderDetail> getOrderDetails() {
+		 String username = JwtRequestFilter.CURRENT_USER;
+		 
+		 User user= userRepository.findByUserName(username)
+				 .orElseThrow(() -> new RuntimeException("User not found"));
+		 
+		 return orderDetailRepository.findByUser(user);
+	}
+	
+	public List<OrderDetail> getAllOrderDetails(){
+		return orderDetailRepository.findAll();
+	}
 }

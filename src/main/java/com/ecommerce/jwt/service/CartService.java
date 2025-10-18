@@ -87,8 +87,21 @@ public class CartService {
 		User user= userRepository.findByUserName(username)
 				.orElseThrow(()-> new RuntimeException("User not found"));
 		
-		return cartRepository.findByUser(user);
-				
+		return cartRepository.findByUser(user);				
+	}
+	
+	public void deleteCartItem(Long productId) {
+		 String username = JwtRequestFilter.CURRENT_USER;
+
+	        User user = userRepository.findByUserName(username)
+	                .orElseThrow(() -> new RuntimeException("User not found"));
+
+	        Cart cart = cartRepository.findByUser(user)
+	                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+	        cart.getProducts().removeIf(p -> p.getProductId().equals(productId));
+
+	        cartRepository.save(cart);
 	}
 
 }

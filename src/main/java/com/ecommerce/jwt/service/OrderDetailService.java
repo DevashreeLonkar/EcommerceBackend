@@ -1,16 +1,19 @@
 package com.ecommerce.jwt.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.jwt.configuration.JwtRequestFilter;
+import com.ecommerce.jwt.entity.Cart;
 import com.ecommerce.jwt.entity.OrderDetail;
 import com.ecommerce.jwt.entity.OrderInput;
 import com.ecommerce.jwt.entity.OrderProductQuantity;
 import com.ecommerce.jwt.entity.Product;
 import com.ecommerce.jwt.entity.User;
+import com.ecommerce.jwt.repository.CartRepository;
 import com.ecommerce.jwt.repository.OrderDetailRepository;
 import com.ecommerce.jwt.repository.ProductRepository;
 import com.ecommerce.jwt.repository.UserRepository;
@@ -29,7 +32,10 @@ public class OrderDetailService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void placeOrder(OrderInput orderInput) {
+	@Autowired
+	private CartRepository cartRepository;
+	
+	public void placeOrder(OrderInput orderInput, boolean isSingleProductCheckout) {
 		List<OrderProductQuantity> productQuantityList= orderInput.getOrderProductQuantities();
 		
 		String currentUser= JwtRequestFilter.CURRENT_USER;
@@ -49,6 +55,12 @@ public class OrderDetailService {
 			orderDetail.setUser(user);
 			
 			orderDetailRepository.save(orderDetail);
+			
+			//empty cart
+			if(!isSingleProductCheckout) {
+				Optional<Cart> carts= cartRepository.findByUser(user);
+				carts.stream().forEach(x-> cartRepository.deleteById(x.getCartId()));
+			}
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.ecommerce.jwt.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,7 +74,26 @@ public class OrderDetailService {
 		 return orderDetailRepository.findByUser(user);
 	}
 	
-	public List<OrderDetail> getAllOrderDetails(){
-		return orderDetailRepository.findAll();
+	public List<OrderDetail> getAllOrderDetails(String orderStatus){
+		List<OrderDetail> orderDetails= new ArrayList<>();
+		
+		if(orderStatus.equals("All")) {
+		 orderDetailRepository.findAll().forEach(x-> orderDetails.add(x));
+		}
+		else {
+			orderDetailRepository.findByOrderStatus(orderStatus).forEach(x-> orderDetails.add(x));
+		}
+		return orderDetails;
+		
 	}
+	
+	public void markOrderAsDelivered(Long orderId) {
+		OrderDetail orderDetail= orderDetailRepository.findById(orderId)
+				.orElseThrow(() -> new RuntimeException("Order not found"));
+		
+		if(orderDetail != null) {
+			orderDetail.setOrderStatus("Delivered");
+			orderDetailRepository.save(orderDetail);
+		}
+	}	
 }

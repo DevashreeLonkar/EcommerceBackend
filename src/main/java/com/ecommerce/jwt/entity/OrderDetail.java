@@ -34,4 +34,6 @@ public class OrderDetail {
 	private Product product;
 	@ManyToOne
 	private User user;
+	
+	private String transactionId;
 }

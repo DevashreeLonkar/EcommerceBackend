@@ -31,6 +31,7 @@ public class OrderInput {
 	private String fullAddress;
 	private String contactNumber;
 	private String alternateContactNumber;
+	private String transactionId;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_input_id")

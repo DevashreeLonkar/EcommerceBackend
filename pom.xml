@@ -98,6 +98,12 @@
 		    <artifactId>groovy-all</artifactId>
 		    <version>2.4.21</version> <!-- use version compatible with Jasper -->
 		</dependency>
+		
+		<dependency>
+			<groupId>com.razorpay</groupId>
+			<artifactId>razorpay-java</artifactId>
+			<version>1.4.3</version>
+		</dependency>
 
 	</dependencies>
 

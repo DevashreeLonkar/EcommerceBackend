@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,14 @@ import com.ecommerce.jwt.entity.OrderDetail;
 import com.ecommerce.jwt.entity.OrderInput;
 import com.ecommerce.jwt.entity.OrderProductQuantity;
 import com.ecommerce.jwt.entity.Product;
+import com.ecommerce.jwt.entity.TransactionDetails;
 import com.ecommerce.jwt.entity.User;
 import com.ecommerce.jwt.repository.CartRepository;
 import com.ecommerce.jwt.repository.OrderDetailRepository;
 import com.ecommerce.jwt.repository.ProductRepository;
 import com.ecommerce.jwt.repository.UserRepository;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
 
 @Service
 public class OrderDetailService {
@@ -35,6 +39,12 @@ public class OrderDetailService {
 	
 	@Autowired
 	private CartRepository cartRepository;
+	
+	private static final String KEY= "rzp_test_RVpXdsyeoEMvEn";
+	
+	private static final String KEY_SECRET= "8tiupqcA13FekLaii2dv8WLX";
+	
+	private static final String CURRENCY= "INR";
 	
 	public void placeOrder(OrderInput orderInput, boolean isSingleProductCheckout) {
 		List<OrderProductQuantity> productQuantityList= orderInput.getOrderProductQuantities();
@@ -54,6 +64,7 @@ public class OrderDetailService {
 			orderDetail.setOrderAmount(product.getProductDiscountedPrice() * o.getQuantity());
 			orderDetail.setProduct(product);
 			orderDetail.setUser(user);
+			orderDetail.setTransactionId(orderInput.getTransactionId());
 			
 			orderDetailRepository.save(orderDetail);
 			
@@ -95,5 +106,34 @@ public class OrderDetailService {
 			orderDetail.setOrderStatus("Delivered");
 			orderDetailRepository.save(orderDetail);
 		}
-	}	
+	}
+	
+	public TransactionDetails createTransaction(Double amount) {
+		try {
+			JSONObject jsonObject= new JSONObject();
+			jsonObject.put("amount", (amount * 100));
+			jsonObject.put("currency", CURRENCY);
+			
+			RazorpayClient razorpayClient= new RazorpayClient(KEY, KEY_SECRET);
+			Order order= razorpayClient.orders.create(jsonObject);
+			TransactionDetails transactionDetails= prepareTransactionDetails(order);
+			return transactionDetails;
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return null;
+	}
+	private TransactionDetails prepareTransactionDetails(Order order) {
+		String orderId = order.get("id");
+	    String currency = order.get("currency");
+	    //Double amount = order.get("amount");
+	    Number amountValue = (Number) order.get("amount");
+	    Double amount = amountValue.doubleValue() / 100.0;
+		
+		TransactionDetails transactionDetails= new TransactionDetails(orderId, currency, amount, KEY);
+		return transactionDetails;
+	}
+	
+	
 }
